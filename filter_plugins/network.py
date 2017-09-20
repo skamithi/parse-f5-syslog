@@ -125,6 +125,7 @@ def parse_cli(output, tmpl):
                 if isinstance(value, Mapping) and 'key' not in value:
                     items = list()
                     for regex in regex_items:
+                        # changed regex.search(block) to regex.findall - skarundi
                         match = regex.findall(block)
                         if match:
                             item_values = {}
