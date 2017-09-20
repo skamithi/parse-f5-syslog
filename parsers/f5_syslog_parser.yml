@@ -8,6 +8,6 @@ keys:
     start_block: "^sys syslog {"
     end_block: "^}$"
     items:
-      - "\\s+(.+) {"
+      - "\\s{6,}(.+) {"
       - "\\s+host (.+)"
 
