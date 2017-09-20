@@ -248,7 +248,7 @@ class TestPadZero(unittest.TestCase):
     run ``python is_list.py``
     """
     def test_if_is_list_is_true(self):
-        output = "my name is {\n  blue green\n}\nsys syslog {\n    remote-servers {\n        cuschy644lst01-eml {\n            host 10.51.196.40\n        }\n        cusqui001lst01 {\n            host 10.36.218.14\n        }\n        cusqui001lst01-eml {\n            host 10.36.218.14\n        }\n        cussclsa0lst01-eml {\n            host 10.36.203.199\n        }\n    }\n}\nmy name is {\n  blue sdfsdfsdf\n}"
+        output = ""
         tmpl = "/home/skamithi/test-parser/parsers/f5_syslog_parser.yml"
         parse_cli(output, tmpl)
 
