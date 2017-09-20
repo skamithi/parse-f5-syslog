@@ -1,0 +1,13 @@
+vars:
+  sysloghost:
+    name: "{{ item[0] }}"
+    ip: "{{ item[1] }}"
+keys:
+  sysloghosts:
+    value: "{{ sysloghost }}"
+    start_block: "^sys syslog {"
+    end_block: "^}$"
+    items:
+      - "\\s+(.+) {"
+      - "\\s+host (.+)"
+

@@ -1,0 +1,10 @@
+---
+{% set tmp_syslog_host = command_output.stdout | parse_cli(f5_syslog_parser) %}
+{% set count = 0 %}
+{% for i in tmp_syslog_host[0].name.match %}
+{% if i != 'remote-servers' and i != 'syslog' %}
+- name: "{{i}}"
+  ip: "{{tmp_syslog_host[0].ip.match[count]}}"
+{%endif%}
+{% set count = count + 1 %}
+{%-endfor%}

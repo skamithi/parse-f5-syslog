@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  vars:
+    f5_syslog_parser: "parsers/f5_syslog_parser.yml"
+  tasks:
+    - command: cat myfile.txt
+      register: command_output
+
+    - set_fact:
+        syslog_host: "{{ lookup('template', 'f5_syslog_template.j2') | from_yaml }}"
