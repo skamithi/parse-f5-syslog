@@ -1,3 +1,39 @@
+# F5 Syslog Config Parser
+#
+# F5 version: <= 11.4. For 12.0 and higher, Rest API is avaiable via Ansible big_ip modules
+#
+# Expected input is the "sys syslog" line as a single string
+# Author: Stanley Karunditu (skarundi@redhat.com)
+# Example Play:
+#
+# -hosts: localhost
+#  connection: local
+#  vars: /path/to/parsers/f5_syslog_parser.yml
+#  tasks:
+#     - name: get syslog line
+#       big_ip_command: show config one-line | grep syslog
+#       register: f5_syslog
+#
+#     - name: set syslog host fact using f5 config output
+#       set_fact:
+#         syslog_host: "{{ f5_syslog.stdout[0] | parse_cli(f5_syslog_parser) }}"
+#
+# Schema Output:
+# ----------
+#  "syslog_host": {
+#      "sysloghosts": [
+#          {
+#              "ip": "10.1.1.1",
+#              "name": "mysyslog1"
+#          },
+#          {
+#              "ip": "10.1.1.2",
+#              "name": "mysyslog2_yah"
+#          }
+#      }
+#  }
+#  ------------
+
 vars:
   sysloghost:
     name: "{{ item.name }}"
@@ -5,6 +41,7 @@ vars:
 keys:
   sysloghosts:
     value: "{{ sysloghost }}"
+
     # Checks to see if there is non-overlapping repeatable sections like this
     # myhost { 10.1.1.1 }. The name check only allows for any alphanumeric value
     # plus underscore plus dots plus dashes
