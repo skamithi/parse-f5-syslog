@@ -11,3 +11,18 @@
     - name: set the syslog host fact
       set_fact:
         syslog_host: "{{ command_output.stdout | parse_cli(f5_syslog_parser) }}"
+
+
+- hosts: localhost
+  connection: local
+  tags: nxos
+  vars:
+    nxos_bgp_parser: "parsers/nxos_bgp_parser.yml"
+  tasks:
+    - name: print out bgp output
+      command: cat bgp_output.txt
+      register: command_output
+
+    - name: set the bgp fact
+      set_fact:
+        bgp_list: "{{ command_output.stdout | parse_cli(nxos_bgp_parser) }}"
