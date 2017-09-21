@@ -1,13 +1,9 @@
 vars:
   sysloghost:
-    name: "{{ item[0] }}"
-    ip: "{{ item[1] }}"
+    name: "{{ item.name }}"
+    ip: "{{ item.ip }}"
 keys:
   sysloghosts:
     value: "{{ sysloghost }}"
-    start_block: "^sys syslog {"
-    end_block: "^}$"
-    items:
-      - "\\s{6,}(.+) {"
-      - "\\s+host (.+)"
+    items: "(?P<name>[a-zA-Z0-9-_.]+) { host (?P<ip>[0-9a-f.]+) }"
 
