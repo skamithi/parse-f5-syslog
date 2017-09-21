@@ -1,32 +1,17 @@
-# Parse f5 syslog
+# Parse f5 syslog config
 
-F5 syslog parser is messed up. Needed to modify the Ansible 2.4 network parser
-and create a template to create a fact that makes sense.
+This is an example of using the new Ansible 2.4 network parser to parse out the syslog F5 config into something useful.
+
+First you have to run f5 show config config to print out "single lines". Then run that through grep and look for the word
+"syslog".
+
+After that run it through the f5 network parser using the Ansible 2.4 network parser syntax.
 
 Given the following
 ```
-my name is {
-  blue green
-}
-sys syslog {
-    remote-servers {
-        mysyslog1 {
-            host 10.1.1.1
-        }
-        mysyslog2 {
-            host 10.1.1.2
-        }
-        mysyslog3 {
-            host 10.1.1.3
-        }
-        mysyslog4 {
-            host 10.1.1.4
-        }
-    }
-}
-my name is {
-  blue sdfsdfsdf
-}
+my name is { blue green }
+sys syslog { remote-servers { mysyslog1 { host 10.1.1.1 } mysyslog2_yah { host 10.1.1.2 } mysyslog3.yah { host 10.1.1.3 } mysyslog4-yah { host 10.1.1.4 } } }
+my name is { blue sdfsdfsdf }
 
 ```
 
@@ -34,30 +19,29 @@ my name is {
 It will output
 
 ```
-ok: [localhost] => {
-    "ansible_facts": {
-        "syslog_host": [
-            {
-                "ip": "10.1.1.1",
-                "name": "mysyslog1"
-            },
-            {
-                "ip": "10.1.1.1",
-                "name": "mysyslog2"
-            },
-            {
-                "ip": "10.1.1.1",
-                "name": "mysyslog3"
-            },
-            {
-                "ip": "10.1.1.1",
-                "name": "mysyslog4"
-            }
-        ]
+"ansible_facts": {
+        "syslog_host": {
+            "sysloghosts": [
+                {
+                    "ip": "10.1.1.1",
+                    "name": "mysyslog1"
+                },
+                {
+                    "ip": "10.1.1.2",
+                    "name": "mysyslog2_yah"
+                },
+                {
+                    "ip": "10.1.1.3",
+                    "name": "mysyslog3.yah"
+                },
+                {
+                    "ip": "10.1.1.4",
+                    "name": "mysyslog4-yah"
+                }
+            ]
+        }
     },
-    "changed": false,
-    "failed": false
-}
+
 
 ```
 
