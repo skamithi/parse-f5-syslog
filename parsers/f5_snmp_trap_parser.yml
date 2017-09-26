@@ -2,9 +2,10 @@ vars:
   trap:
     community: "{{ item.community }}"
     host: "{{ item.trap_host }}"
+    object_id: "{{ item.object_id }}"
 keys:
   traps:
     value: "{{ trap }}"
-    items: ".+ { community (?P<community>.+) host (?P<trap_host>[0-9a-f.]+) } "
+    items: " (?P<object_id>\\S+) { community (?P<community>.+) host (?P<trap_host>[0-9a-f.]+) } "
 
 
