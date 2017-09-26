@@ -24,6 +24,6 @@
         create snmp fact part 1: basic info - sys location
       set_fact:
           snmp:
-            basic: "{{ snmp_output.stdout | parse_cli(f5_snmp_basics_parser) }}"
-            traps: "{{ snmp_output.stdout | parse_cli(f5_snmp_trap_parser) }}"
-            communities: "{{ snmp_output.stdout | parse_cli(f5_snmp_communities_parser) }}"
+            basic: "{{ (snmp_output.stdout | parse_cli(f5_snmp_basics_parser))['basic'] }}"
+            traps: "{{ (snmp_output.stdout | parse_cli(f5_snmp_trap_parser))['traps'] }}"
+            communities: "{{ (snmp_output.stdout | parse_cli(f5_snmp_communities_parser))['communities'] }}"
