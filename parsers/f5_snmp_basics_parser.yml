@@ -1,0 +1,11 @@
+vars:
+  snmpbasic:
+    sys_contact: "{{ item.sys_contact }}"
+    sys_location: "{{ item.sys_location }}"
+    allowed_addresses: "{{ item.allowed_addresses.split(' ') }}"
+keys:
+  basic:
+    value: "{{ snmpbasic }}"
+    items: ".+ allowed-addresses { (?P<allowed_addresses>[0-9a-f. /]+) } .+sys-contact \"(?P<sys_contact>.+)\".+sys-location \"(?P<sys_location>.+)\" "
+
+

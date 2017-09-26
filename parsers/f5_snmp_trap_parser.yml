@@ -1,0 +1,10 @@
+vars:
+  trap:
+    community: "{{ item.community }}"
+    host: "{{ item.trap_host }}"
+keys:
+  traps:
+    value: "{{ trap }}"
+    items: ".+ { community (?P<community>.+) host (?P<trap_host>[0-9a-f.]+) } "
+
+

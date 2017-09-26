@@ -1,0 +1,9 @@
+vars:
+  community:
+    community_name: "{{ item.community_name }}"
+    source: "{{ item.source }}"
+keys:
+  communities:
+    value: "{{ community }}"
+    items: "{ community-name (?P<community_name>\\S+) oid-subset \\S{1,3} source (?P<source>[0-9a-f./]+) }"
+

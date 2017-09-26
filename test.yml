@@ -3,26 +3,27 @@
   connection: local
   vars:
     f5_syslog_parser: "parsers/f5_syslog_parser.yml"
+    f5_snmp_basics_parser: "parsers/f5_snmp_basics_parser.yml"
+    f5_snmp_trap_parser: "parsers/f5_snmp_trap_parser.yml"
+    f5_snmp_communities_parser: "parsers/f5_snmp_communities_parser.yml"
   tasks:
     - name: parse a f5 single line command output
       command: grep "syslog" myfile.txt
-      register: command_output
+      register: syslog_output
 
     - name: set the syslog host fact
       set_fact:
-        syslog_host: "{{ command_output.stdout | parse_cli(f5_syslog_parser) }}"
+        syslog_host: "{{ syslog_output.stdout | parse_cli(f5_syslog_parser) }}"
 
+    - name: >
+        parse snmp output from a single line f5 command output
+      command: grep "sys snmp" f5_config_one_line.txt
+      register: snmp_output
 
-- hosts: localhost
-  connection: local
-  tags: nxos
-  vars:
-    nxos_bgp_parser: "parsers/nxos_bgp_parser.yml"
-  tasks:
-    - name: print out bgp output
-      command: cat bgp_output.txt
-      register: command_output
-
-    - name: set the bgp fact
+    - name: >
+        create snmp fact part 1: basic info - sys location
       set_fact:
-        bgp_list: "{{ command_output.stdout | parse_cli(nxos_bgp_parser) }}"
+          snmp:
+            basic: "{{ snmp_output.stdout | parse_cli(f5_snmp_basics_parser) }}"
+            traps: "{{ snmp_output.stdout | parse_cli(f5_snmp_trap_parser) }}"
+            communities: "{{ snmp_output.stdout | parse_cli(f5_snmp_communities_parser) }}"
