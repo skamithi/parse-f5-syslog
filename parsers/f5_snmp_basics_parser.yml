@@ -6,6 +6,6 @@ vars:
 keys:
   basic:
     value: "{{ snmpbasic }}"
-    items: ".+ allowed-addresses { (?P<allowed_addresses>[0-9a-f. /]+) } .+sys-contact \"(?P<sys_contact>.+)\".+sys-location \"(?P<sys_location>.+)\" "
+    items: ".+ allowed-addresses { (?P<allowed_addresses>[0-9a-f. /]+) } .+sys-contact \"(?P<sys_contact>.+)\".+sys-location \"(?P<sys_location>.+)\" traps "
 
 
